@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkateBoardGame</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../scripts/dice.js" defer></script>
+    <script src="../scripts/spots.js" defer></script>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../assets/electrologo.png" alt="Electro Logo" class="header-logo">
+        </div>
+        <div class="top-container">
+            <div class="left-container">
+                <div class="spot-selector">
+                    <h3>Pick a spot and roll!</h3>
+                    <select id="spotSelect" class="button" onchange="enableHitTheSpotButton()">
+                        <option value="" disabled selected>Pick a Spot</option>
+                    </select>
+                    <button id="hitTheSpotButton" class="button" onclick="enableDiceButtons()" disabled>
+                        <img src="../assets/rollButtonSml.png" alt="Hit the Spot" class="roll-button">
+                    </button>
+                    <div class="button-container" id="diceButtons" style="display: none;">
+                        <button class="button" id="roll2DiceButton" onclick="handleRollDiceWithDelay(2)" disabled>Roll 2 dice</button>
+                        <button class="button" id="roll3DiceButton" onclick="handleRollDiceWithDelay(3)" disabled>Roll 3 dice</button>
+                        <button class="button" id="roll4DiceButton" onclick="handleRollDiceWithDelay(4)" disabled>Roll 4 dice</button>
+                    </div>
+                </div>
+                <div class="spot-score">
+                    <h3>Spot Score</h3>
+                    <div id="spotPoints" class="spot-points">Spot Points: 0</div>
+                    <div id="results" class="results"></div>
+                    <ul id="resultsList" class="results"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="center-container">
+            <h3>Previous Runs</h3>
+            <ul id="previousRunsList" class="results"></ul>
+        </div>
+    </div>
+</body>
+</html>
