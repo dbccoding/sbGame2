@@ -139,6 +139,9 @@ function displayResultsPopup(originalRolls, modifiedRolls, originalSum, finalSum
                     <div class="modifier-card-compact">
                         <h4>${modifierCard.name}</h4>
                         <p>${modifierCard.description}</p>
+                        <div class="contextual-outcome">
+                            <em>${getContextualOutcomeMessage(modifierCard, success, true)}</em>
+                        </div>
                     </div>
                     
                     <div class="result-status ${success ? 'success' : 'failure'}">
@@ -394,15 +397,33 @@ function showFinalScorePopup(spotPoints, trickAttempts) {
             </div>
             
             <div class="action-buttons">
-                <button class="button primary" onclick="playAgain()">New Session</button>
-                <button class="button" onclick="goHome()">Main Menu</button>
+                <button class="button primary" onclick="event.stopPropagation(); playAgain();">New Session</button>
+                <button class="button" onclick="event.stopPropagation(); goHome();">Main Menu</button>
             </div>
         </div>
     `;
     document.body.appendChild(popup);
+    
+    // Disable non-popup buttons to prevent conflicts
+    disableAllButtons();
 }
 
 function playAgain() {
+    // Prevent event bubbling
+    event?.stopPropagation();
+    event?.preventDefault();
+    
+    // Remove ALL popups more aggressively
+    document.querySelectorAll('.popup').forEach(popup => {
+        popup.remove();
+    });
+    
+    // Clear any popup-related styles that might persist
+    document.body.classList.remove('popup-open');
+    
+    // Re-enable all buttons
+    enableAllButtons();
+    
     // Store the score
     storeUserScores(GameState.spotPoints, GameState.trickAttempts);
     
@@ -418,21 +439,36 @@ function playAgain() {
     document.getElementById('results').innerHTML = '';
     updateSpotPoints();
     
-    // Remove popup
-    const popup = document.querySelector('.popup');
-    if (popup) {
-        popup.remove();
-    }
-    
-    // Show spot selection again
-    showSpotSelectionUI();
-    
-    // Update previous runs
-    displayPreviousRuns();
+    // Use setTimeout to ensure DOM updates complete before showing spot selection
+    setTimeout(() => {
+        // Show spot selection again
+        showSpotSelectionUI();
+        
+        // Update previous runs
+        displayPreviousRuns();
+    }, 10);
 }
 
 function goHome() {
+    // Prevent event bubbling
+    event?.stopPropagation();
+    event?.preventDefault();
+    
+    // Remove ALL popups and enable buttons before navigation
+    document.querySelectorAll('.popup').forEach(popup => {
+        popup.remove();
+    });
+    document.body.classList.remove('popup-open');
+    enableAllButtons();
+    
     window.location.href = 'index.html';
+}
+
+// Add enableAllButtons function to dice.js for consistency
+function enableAllButtons() {
+    document.querySelectorAll('button').forEach(button => {
+        button.disabled = false;
+    });
 }
 
 // Remove the old moveToNextSpot function - it's now in spots.js

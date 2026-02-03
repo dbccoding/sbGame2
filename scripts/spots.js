@@ -71,12 +71,12 @@ const ModifierCards = [
     { name: "Security Showed Up", effect: "reroll", value: 0, description: "Security kicked you out! Come back later and roll again" },
     { name: "Filmer Missed It", effect: "reroll", value: 0, description: "Filmer wasn't ready! Roll again" },
     { name: "Crowd Hyped", effect: "add", value: 2, description: "The crowd went wild! +2 to your roll" },
-    { name: "Sketchy Landing", effect: "subtract", value: 1, description: "Landed sketchy... -1 to your roll" },
-    { name: "Butter Landing", effect: "add", value: 3, description: "Landed perfectly! +3 to your roll" },
+    { name: "Rough Approach", effect: "subtract", value: 1, description: "Setup felt off... -1 to your roll" },
+    { name: "Clean Approach", effect: "add", value: 3, description: "Perfect setup! +3 to your roll" },
     { name: "Wind Interference", effect: "subtract", value: 2, description: "Wind messed with your balance -2 to roll" },
     { name: "In the Zone", effect: "minimum", value: 10, description: "Feeling it! Minimum roll of 10" },
     { name: "Warmed Up", effect: "add", value: 1, description: "Getting loose! +1 to your roll" },
-    { name: "First Try", effect: "multiply", value: 2, description: "Nailed it first try! Double your roll" },
+    { name: "Locked In", effect: "multiply", value: 2, description: "Fully committed! Double your roll" },
     { name: "Lunch Break", effect: "reroll", value: 0, description: "The filmer was grabbing a sandwich and missed your trick!" },
     { name: "Haters", effect: "subtract", value: 2, description: "Well, at least they didn't drop a flower pot on you... Haters begone!" },
     { name: "Flow State", effect: "multiply", value: 1.5, description: "Everything just... clicked. +50% to roll" },
@@ -596,6 +596,56 @@ function moveToNextSpot() {
     if (drawButton) {
         drawButton.disabled = false;
         drawButton.style.display = 'block';
+    }
+}
+
+// Get contextual outcome message based on modifier and success
+function getContextualOutcomeMessage(modifierCard, success, tricksSuccess) {
+    const outcomes = {
+        "Perfect Timing": {
+            success: "The filmer caught every detail of your perfect landing!",
+            failure: "Great angle, but couldn't quite pull it off this time."
+        },
+        "Clean Approach": {
+            success: "Perfect setup led to a butter landing!",
+            failure: "Great approach, but couldn't stick the landing."
+        },
+        "Rough Approach": {
+            success: "Somehow made it work despite the sketchy setup!",
+            failure: "The rough approach made it too difficult to land clean."
+        },
+        "Locked In": {
+            success: "Total commitment paid off with a perfect make!",
+            failure: "Full send, but sometimes that's not enough."
+        },
+        "Crowd Hyped": {
+            success: "The crowd erupts as you stomp it clean!",
+            failure: "The crowd was behind you, but it wasn't meant to be."
+        },
+        "Flow State": {
+            success: "Everything clicked perfectly - flawless execution!",
+            failure: "Almost had that flow state, but lost it at the end."
+        },
+        "In the Zone": {
+            success: "Locked in and landed it perfectly!",
+            failure: "Even in the zone, this one was too difficult."
+        },
+        "Adrenaline Rush": {
+            success: "Pure adrenaline carried you to a perfect landing!",
+            failure: "Adrenaline wasn't enough to overcome the difficulty."
+        }
+    };
+    
+    const cardOutcomes = outcomes[modifierCard.name];
+    if (cardOutcomes) {
+        return cardOutcomes[success ? 'success' : 'failure'];
+    }
+    
+    // Default contextual messages
+    if (success) {
+        return "Despite the conditions, you managed to land it clean!";
+    } else {
+        return "The conditions made it too difficult to pull off.";
     }
 }
 
