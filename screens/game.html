@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkateBoardGame</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../scripts/dice.js" defer></script>
+    <script src="../scripts/spots.js" defer></script>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../assets/electrologo.png" alt="Electro Logo" class="header-logo">
+        </div>
+        <div class="top-container">
+            <div class="left-container">
+                <!-- Spot Selection Phase -->
+                <div class="spot-selection-phase" id="spotSelectionPhase" style="display: block;">
+                    <h3>Select 10 Spots for Your Session</h3>
+                    <div class="spot-grid">
+                        <select id="spotSelect" class="spot-selector-dropdown" multiple size="10">
+                        </select>
+                        <div class="selected-spots">
+                            <h4>Selected Spots (<span id="selectedCount">0</span>/10):</h4>
+                            <ul id="selectedSpotsList"></ul>
+                        </div>
+                    </div>
+                    <button id="startGameButton" class="button" onclick="startGame()" disabled>Start Session</button>
+                </div>
+
+                <!-- Game Phase -->
+                <div class="game-phase" id="gamePhase" style="display: none;">
+                    <div class="current-spot-info">
+                        <h3>Current Spot: <span id="currentSpotName">-</span></h3>
+                        <p>Spot <span id="currentSpotNumber">1</span> of 10</p>
+                        <p>Minimum rolls: <span id="minRollsDisplay">-/-/-</span> (2/3/4 dice)</p>
+                    </div>
+                    
+                    <!-- Card Selection -->
+                    <div class="card-selection">
+                        <div class="trick-card-section">
+                            <h4>Trick Card</h4>
+                            <div id="trickCardDisplay" class="card-display">
+                                <button id="drawTrickCardButton" class="button" onclick="drawTrickCard()">Draw Trick Card</button>
+                                <div id="selectedTrickCard" class="selected-card" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dice Rolling -->
+                    <div class="dice-section">
+                        <h4>Roll the Dice</h4>
+                        <p>Required roll: <span id="requiredRollDisplay">-</span></p>
+                        <div class="button-container" id="diceButtons" style="display: none;">
+                            <button class="button" id="roll2DiceButton" onclick="handleRollDiceWithDelay(2)" disabled>
+                                Roll 2 dice (Need: <span id="need2Dice">-</span>)
+                            </button>
+                            <button class="button" id="roll3DiceButton" onclick="handleRollDiceWithDelay(3)" disabled>
+                                Roll 3 dice (Need: <span id="need3Dice">-</span>)
+                            </button>
+                            <button class="button" id="roll4DiceButton" onclick="handleRollDiceWithDelay(4)" disabled>
+                                Roll 4 dice (Need: <span id="need4Dice">-</span>)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="spot-score">
+                    <h3>Session Progress</h3>
+                    <div id="spotPoints" class="spot-points">Spot Points: 0</div>
+                    <div id="results" class="results"></div>
+                    <ul id="resultsList" class="results"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="center-container">
+            <!-- Achievements Display -->
+            <div class="achievements-section">
+                <h3>Your Achievements</h3>
+                <div class="achievement-stats">
+                    <span id="totalCombos">0</span> Famous Combos | 
+                    <span id="rareCombos">0</span> Rare | 
+                    <span id="epicCombos">0</span> Epic | 
+                    <span id="legendaryCombos">0</span> Legendary
+                </div>
+                <div class="recent-titles">
+                    <h4>Recent Titles:</h4>
+                    <div id="recentTitles" class="titles-display"></div>
+                </div>
+            </div>
+
+            <h3>Previous Runs</h3>
+            <ul id="previousRunsList" class="results"></ul>
+        </div>
+    </div>
+</body>
+</html>
